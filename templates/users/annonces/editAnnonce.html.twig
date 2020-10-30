@@ -1,0 +1,60 @@
+{% extends 'users.html.twig' %}
+
+{% block title %}
+  edit annonce
+{% endblock %}
+
+
+{% block body %}
+	<div class="grix xs4 container">
+		<div class="col-xs4">
+			<h1>Edition d'une annonce de {{ app.user.name }}</h1>
+			  {{ form_start(form) }}
+					<div class="form-field col-xs1">
+						{{ form_label(form.title, 'Titre de l\'annonce', {'label_attr': {'class': 'blue'}})  }}
+						{{ form_widget(form.title) }}	
+					</div>			
+					<div class="form-field">
+						{{ form_label(form.content, 'Contenu', {'label_attr': {'class': 'blue'}}) }}
+						{{ form_widget(form.content) }}	
+					</div>			
+					<div class="form-field col-xs4">
+						{{ form_label(form.categories, 'Choisir la catégorie', {'label_attr': {'class': 'col-xs2 blue'}}) }}
+						{{ form_widget(form.categories, {'attr': {'class': 'col-xs2'}}) }}	
+					</div>			
+					<div class="form-field col-xs4">
+						{{ form_label(form.images, 'Choisir une ou plusieurs images', {'label_attr': {'class': 'blue'}}) }}
+						{{ form_widget(form.images, {'attr': {'class': 'blue' }}) }}	
+					</div>
+					<div><br /></div>	
+					<div class="form-field">
+						{{ form_widget(form.Valider, {'attr': {'class': 'btn rounded-3  small blue'}})}}
+					</div>
+
+			  {{ form_end(form) }}
+		</div>
+		
+		{# on vérifie que a route st bien users_annonces_editer avant d'afficher les images #}
+		{# {{ dump(app.request.attributes.get('_route')) }} #}
+					{% if app.request.attributes.get('_route') == "users_annonces_edit" %}
+						<div class="col-xs4">
+							<h3>On affiche les images de cette annonces</h3>
+						</div>
+						{% for image in annonce.images %}
+								<div class="col-xs2">
+								<img src="{{ asset('/uploads/images/annonces/' ~ image.name) }}" alt="image" width="150px">
+								
+								<a href="{{ path('users_annonce_delete_image', {'id': image.id}) }}" data-delete
+									data-token="{{ csrf_token('delete' ~ image.id ) }}" class="btn rounded-4 small red"
+								>Supprimer</a>
+								</div>
+						{% endfor %}
+					{% endif %}		
+		
+	</div>	
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{  asset('/js/delImages.js') }}"></script>
+{% endblock %}
+

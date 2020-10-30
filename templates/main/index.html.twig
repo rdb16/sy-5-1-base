@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueuil{% endblock %}
+
+{% block body %}
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">{{ message }}</div>
+    {% endfor %}
+
+    <div class="container">
+        {% for annonce in annonces %}
+            <div class="grix xs2 sm3 gutte-0 card ">
+                <div class="primary flex vcenter fx-center ">
+                {# {{ dump(annonce)}} #}
+                    <img src="{{ asset('uploads/images/annonces/' ~ annonce.images[0].name)|
+                    imagine_filter('square')  }}" 
+                    alt="{{ annonce.title }}">
+                </div>
+                <div class="flex fx-col fx-grow">
+                    <div class="card-header"><a href="{{ path('annonces_details', {slug: annonce.slug}) }}" > {{ annonce.title }} </a></div>
+                    <div class="card-content">
+                        <p>Catégorie: {{ annonce.categories.name }}</p>
+                        <p>Description: {{ annonce.content | striptags | u.truncate(35,'...') }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+{% endblock %}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+		<title>{% block title %}Welcome!{% endblock %}</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/axentix@1.0.0-beta.2/dist/css/axentix.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"/>
+        {% block stylesheets %}{% endblock %}
+		<link rel="stylesheet" href="{{ asset('css/styles.css') }}" 
+    </head>
+    
+     <body class="layout with-sidenav">
+       <header>
+            <div>
+               {% for message in app.flashes('success') %}
+                  <div class="p-3 my-2 rounded-2 success">
+		       {% endfor %}
+            </div>	   
+
+            <nav class="navbar shadow-1 primary">
+                <a href="{{ path('app_home') }}" class="navbar-brand">Axentix</a>
+                    <div class="navbar-menu ml-auto">
+                        <a class="navbar-link" href="{{ path('users') }}">Mon Dashboard</a>
+                        <a class="navbar-link" href="#">Link 2</a>
+                        <a class="navbar-link" href="#">Link 3</a>
+                        <a class="navbar-link" href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+            </nav>
+        </header>
+        
+        <div id="example-sidenav" data-ax="sidenav" class="sidenav shadow-1 large fixed white">
+            <div class="sidenav-header">
+                <button data-target="example-sidenav" class="sidenav-trigger"/>
+                    <i class="fas fa-times"></i>
+                </button>
+
+                <img class="sidenav-logo dropshadow-1" src="{{ asset('uploads/images/android.jpg') }}" alt="Logo"/>
+            </div>
+            <a href="#" class="sidenav-link active">Mon Profil</a>
+            <a href="#" class="collapsible-trigger sidenav-link data-target=" mes-annonces">Annonces</a>
+            <div>
+                <div class="collapsible id=" mes-annonces" data-ax=" collapsible">
+                    <a href="#" class="sidenav-link">Mes annonces</a>
+                    <a href="{{ path('users_annonces_ajout') }}" class="sidenav-link">Créer une annonce</a>
+                </div>
+            </div>
+        </div>
+        
+        <main>
+            <button data-target="example-sidenav" class="btn rounded-1 press amaranth dark-1 sidenav-trigger hide-md-up">
+                Open sidenav
+            </button>   
+            {% block body %}{% endblock %}
+        </main>
+        
+        <footer class="footer primary">Copyright © 2020 - Example</footer>
+        <script src="https://cdn.jsdelivr.net/npm/axentix@1.0.0-beta.2/dist/js/axentix.min.js"></script>
+        {% block javascripts %}{% endblock %}
+        <script src="{{ asset('js/monscript.js') }}"></script>
+        <script>let sidenav = new Axentix.Sidenav('#example-sidenav')</script>
+        <script>let collapsible = new Axentix.Collapsible('#mes-annonces')</script>
+</body>
+</html>

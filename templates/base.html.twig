@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/axentix@1.0.0-beta.2/dist/css/axentix.min.css" />
+        
+
+        {% block stylesheets %}{% endblock %}
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}"
+    </head>
+    <body>
+        <header>
+            <nav class="navbar shadow-1 primary">
+                <a href="{{ path('app_home') }}" class="navbar-brand">Axentix</a>
+                <div class="navbar-menu ml-auto">
+                    <a class="navbar-link" href="{{ path('app_home') }}">Acceuil</a>
+                    <a class="navbar-link" href="{{ path('app_register') }}">Enregistrement</a>
+                    <a class="navbar-link" href="{{ path('users') }}">Mon Compte</a>
+                    <a class="navbar-link" href="{{ path('contact') }}">Nous contacter</a>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer class="footer fx-center primary">
+            Copyright sntpk © 2020 - 
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/axentix@1.0.0-beta.2/dist/js/axentix.min.js"></script>
+        {% block javascripts %}{% endblock %}
+        <script src="{{ asset('js/monscript.js') }}"></script>
+    </body>
+</html>
