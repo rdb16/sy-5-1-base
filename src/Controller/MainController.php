@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\ContactType;
+use App\Form\SearchAnnonceType;
 use App\Repository\AnnoncesRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,11 +16,29 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="app_home")
      */
-    public function index(AnnoncesRepository $annoncesRepo)
+    public function index(AnnoncesRepository $annoncesRepo, Request $request)
     {
+        $annonces = $annoncesRepo->findBy(['active' =>  true], ['created_at' => 'desc'], 5);
+
+        $form = $this->createForm(SearchAnnonceType::class);
+
+        $search = $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            //on lance la recherche
+            //dd($search->get('mots')->getData());
+            //dd($search->get('mots'));
+            //dd($annoncesRepo->search("-bis"));
+            $annonces = $annoncesRepo->search(
+                $search->get('mots')->getData(),
+                $search->get('categorie')->getData()
+                );
+            //dd($annonces);
+        }
+
         return $this->render('main/index.html.twig', [
-            'annonces' => $annoncesRepo->findBy(['active' =>  true],
-             ['created_at' => 'desc']),
+            'annonces' => $annonces,
+            'form' => $form->createView()
         ]);
     }
 
