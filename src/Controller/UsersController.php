@@ -12,6 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Symfony\Component\HttpFoundation\Response;
 
 class UsersController extends AbstractController
 {
@@ -21,6 +24,52 @@ class UsersController extends AbstractController
     public function index()
     {
         return $this->render('users/index.html.twig');
+    }
+
+    /**
+     * @Route("/users/data", name="users_data")
+     */
+    public function usersData()
+    {
+        return $this->render('users/data.html.twig');
+    }
+    /**
+     * @Route("/users/data/download", name="users_data_download")
+     */
+    public function usersDataDownload(Request $request)
+    {
+        //on définit les options du pdf
+        $pdfOptions = new Options();
+        //la police ae défaut
+        $pdfOptions->setDefaultFont('Arial');
+        $pdfOptions->setIsRemoteEnabled(true);
+        //on instancie
+        $dompdf = new Dompdf($pdfOptions);
+        $context = stream_context_create([
+            'ssl' => [
+                'verify_peer' => FALSE,
+                'verify_peer_name' => FALSE,
+                'allow_self_signed' => TRUE
+            ]
+        ]);
+        $dompdf->setHttpContext($context);
+        //on génère le html
+        $html = $this->renderView('users/download.html.twig');
+
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4','portrait');
+
+        $dompdf->render();
+        //on génère un nom de fichier
+        $fichier = 'user-data-'. $this->getUser()->getid() .'.pdf';
+
+        // on envoie le pdf au navigateur
+        $dompdf->stream($fichier, [
+            'Attachment' => true,
+        ]);
+
+        return new Response();
+
     }
 
     /**

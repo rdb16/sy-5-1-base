@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Page Interdite
+{% endblock %}
+
+{% block body %}
+	<h1>Accès interdit</h1>
+	<p>
+		vous n'avez pas les droits pour la page que vous demandez</p>
+	<p>
+		merci de vous authentifier</p>
+    <p>	code de l'erreur: {{ status_code }}</p>
+    <p>	message de l'erreur: {{ status_message }}</p>
+
+
+{% endblock %}

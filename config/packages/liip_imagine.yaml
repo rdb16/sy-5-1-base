@@ -16,4 +16,10 @@ liip_imagine:
                     min: [800,400]
                 thumbnail:
                     size: [800,400]
-                    mode: outbound 
+                    mode: outbound
+        smallsquare:    #le nom du filtre
+            quality: 50 # c'est un %
+            filters:
+                thumbnail:
+                    size: [100,100]
+                    mode: outbound # jette les morceaux qui dépassent 
