@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 		<title>{% block title %}Welcome!{% endblock %}</title>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/axentix@1.0.0-beta.2/dist/css/axentix.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/axentix@1.0.0-beta.3.1/dist/css/axentix.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"/>
         {% block stylesheets %}{% endblock %}
 		<link rel="stylesheet" href="{{ asset('css/styles.css') }}" 
@@ -20,46 +20,69 @@
             </div>	   
 
             <nav class="navbar shadow-1 primary">
+                <button data-target="example-sidenav" class="btn press primary sidenav-trigger ">
+                    <i class="fas fa-bars"></i>
+                </button>
+
                 <a href="{{ path('app_home') }}" class="navbar-brand">Axentix</a>
                     <div class="navbar-menu ml-auto">
                         <a class="navbar-link" href="{{ path('users') }}">Mon Dashboard</a>
                         <a class="navbar-link" href="#">Link 2</a>
                         <a class="navbar-link" href="#">Link 3</a>
                         <a class="navbar-link" href="{{ path('app_logout') }}">Logout</a>
+
+                        <div class="mx-3 ">
+                        <img src="{{ asset('uploads/images/photos/' ~ app.user.userPhoto.name)}}" class="myimg" alt="Trombi" />
+                        </div>
                     </div>
             </nav>
         </header>
         
-        <div id="example-sidenav" data-ax="sidenav" class="sidenav shadow-1 large fixed white">
+        <div id="example-sidenav" class="sidenav shadow-1 primary">
             <div class="sidenav-header">
-                <button data-target="example-sidenav" class="sidenav-trigger"/>
+                <button data-target="example-sidenav" class="sidenav-trigger">
                     <i class="fas fa-times"></i>
                 </button>
 
-                <img class="sidenav-logo dropshadow-1" src="{{ asset('uploads/images/android.jpg') }}" alt="Logo"/>
+                <img class="sidenav-logo dropshadow-1" src="{{ asset('uploads/images/logo-sntp.png') }}" alt="Logo"/>
             </div>
-            <a href="#" class="sidenav-link active">Mon Profil</a>
-            <a href="#" class="collapsible-trigger sidenav-link data-target=" mes-annonces">Annonces</a>
+
+            <a href="#" class="collapsible-trigger sidenav-link" data-target="ex-collaps">Mon Profil</a>
             <div>
-                <div class="collapsible id=" mes-annonces" data-ax=" collapsible">
-                    <a href="#" class="sidenav-link">Mes annonces</a>
-                    <a href="{{ path('users_annonces_ajout') }}" class="sidenav-link">Créer une annonce</a>
+                <div class="collapsible" id="ex-collaps" data-ax="collapsible">
+                    <a href="{{ path('users_profil_modifier') }}" class="active sidenav-link">Modifier mon profil</a>
+                    <a href="{{ path('users_data') }}" class="sidenav-link">Mes données RGPG</a>
+
+                    <a href="{{ path('users_pass_modifier') }}" class="sidenav-link">Changer le mot de passe</a>
+
+                    <a href="#" class="sidenav-link"></a>
+                
                 </div>
             </div>
+
+            <a href="#" class="collapsible-trigger sidenav-link" data-target="ex2-collaps">Mes Annonces</a>
+            <div>
+                <div class="collapsible" id="ex2-collaps" data-ax="collapsible">
+                    <a href="{{ path('users_annonces_ajout') }}" class="active sidenav-link">Nouvelle annonce</a>
+                    
+                    <a href="#" class="sidenav-link">ITEM</a>
+
+                </div>
+            </div>
+
+            
         </div>
         
-        <main>
-            <button data-target="example-sidenav" class="btn rounded-1 press amaranth dark-1 sidenav-trigger hide-md-up">
-                Open sidenav
-            </button>   
+         <main>           
             {% block body %}{% endblock %}
         </main>
         
-        <footer class="footer primary">Copyright © 2020 - Example</footer>
-        <script src="https://cdn.jsdelivr.net/npm/axentix@1.0.0-beta.2/dist/js/axentix.min.js"></script>
+        <footer class="footer primary">Copyright © 2020 - SNTPK </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/axentix@1.0.0-beta.3.1/dist/js/axentix.min.js"></script>
         {% block javascripts %}{% endblock %}
         <script src="{{ asset('js/monscript.js') }}"></script>
         <script>let sidenav = new Axentix.Sidenav('#example-sidenav')</script>
-        <script>let collapsible = new Axentix.Collapsible('#mes-annonces')</script>
+        <script>let collapsible = new Axentix.Collapsible('#ex-collaps')</script>
 </body>
 </html>

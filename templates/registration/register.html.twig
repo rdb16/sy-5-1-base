@@ -3,6 +3,56 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-	<h1>Enregistrer vous</h1><br>
-	{{ form(registrationForm) }}{% endblock %}
+<h1 class="txt-blue ">Enregistrer vous</h1><br>
 
+	{# {{ form(registrationForm) }}{% endblock %} #}
+	<div class="grix xs2">
+		{{ form_start(registrationForm) }}
+		
+			<div>{{ form_label(registrationForm.name,'Votre nom: ') }}</div>
+			<div>{{ form_widget(registrationForm.name) }}</div>
+			<div>{{ form_errors(registrationForm.name) }}</div>
+			<div></div>
+			
+		
+			<div>{{ form_label(registrationForm.firstname,'Votre prénom: ') }}</div>
+			<div>{{ form_widget(registrationForm.firstname) }}</diV>
+			<div>{{form_errors(registrationForm.firstname)}}</div>
+			<div></div>
+		
+			<div>{{ form_label(registrationForm.email,'Votre email: ') }}</div>
+			<div>{{ form_widget(registrationForm.email) }}</div>
+			<div>{{ form_errors(registrationForm.email) }}</div>
+			<div></div>
+		
+		
+			<div>{{ form_label(registrationForm.plainPassword.first,'Chosissez votre mot de passe: ') }}</div>
+			<div>{{ form_widget(registrationForm.plainPassword.first) }}</div>
+
+			<div>{{ form_errors(registrationForm.plainPassword.first, {'attr': {'class': 'bd-solid bd-red'}}) }}</div>
+			<div></div>
+
+		
+			<div>{{ form_label(registrationForm.plainPassword.second,'Confirmer votre mot de passe: ') }}</div>			
+			<div>{{form_widget(registrationForm.plainPassword.second)}}</div>
+			<div></div>
+
+		
+		
+		<div class="my-5">
+		<div>{{ form_label(registrationForm.photo, 'Choisissez votre photo') }}</div>
+		<div class="my-3">{{ form_widget(registrationForm.photo) }}</div>
+		<div>{{ form_errors(registrationForm.photo) }}</div>
+		<div></div>
+		</div>
+
+		<div class="my-2">
+			{{ form_label(registrationForm.agreeTerms,'J\'accepte les conditions générales') }}
+		</div>
+		<div class="mx-2">{{ form_widget(registrationForm.agreeTerms) }}</div>
+			{{ form_errors(registrationForm.agreeTerms) }}
+		</div>	
+		{{ form_end(registrationForm) }}	
+	</div>
+		
+{% endblock %}

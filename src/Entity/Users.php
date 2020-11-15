@@ -68,6 +68,11 @@ class Users implements UserInterface
      */
     private $favoris;
 
+    /**
+     * @ORM\OneToOne(targetEntity=UserPhoto::class, mappedBy="user_id", cascade={"persist", "remove"})
+     */
+    private $userPhoto;
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
@@ -276,6 +281,24 @@ class Users implements UserInterface
         if ($this->favoris->contains($favori)) {
             $this->favoris->removeElement($favori);
             $favori->removeFavori($this);
+        }
+
+        return $this;
+    }
+
+    public function getUserPhoto(): ?UserPhoto
+    {
+        return $this->userPhoto;
+    }
+
+    public function setUserPhoto(?UserPhoto $userPhoto): self
+    {
+        $this->userPhoto = $userPhoto;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newUser_id = null === $userPhoto ? null : $this;
+        if ($userPhoto->getUserId() !== $newUser_id) {
+            $userPhoto->setUserId($newUser_id);
         }
 
         return $this;
