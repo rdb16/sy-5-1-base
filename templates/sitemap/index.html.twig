@@ -1,20 +1,51 @@
-{% extends 'base.html.twig' %}
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
-{% block title %}Hello SitemapController!{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    {# on boucle sur les urls#}
+    {% for url in urls %}
+        <url>
+            <loc>
+                {# on vérifie que hostname est présent dans url sinon on ajoute #}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                {% if  url.loc | replace({hostname:''}) == url.loc %}
+                    {{ hostname }}{{ url.loc }}
+                {% else %}
+                    {{ url.loc }}            
+                {% endif %}
+            </loc>
+ 
+ 
+            {# on vérifie que la date n\'est pas vide\'#}
+            {% if url.lastmod is defined %}
+                <lastmod>{{ url.lastmod }}</lastmod>
+            {% endif%}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/rdb/Lab/S5-AUTNENTICATION_MODULE/petites_annonces/src/Controller/SitemapController.php'|file_link(0) }}">src/Controller/SitemapController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/rdb/Lab/S5-AUTNENTICATION_MODULE/petites_annonces/templates/sitemap/index.html.twig'|file_link(0) }}">templates/sitemap/index.html.twig</a></code></li>
-    </ul>
-</div>
-{% endblock %}
+            {# on vérifie que le période de modif est définie#}
+            {% if url.changefreq is defined %}
+                <changefreq>{{ url.changefreq }}</changefreq>
+            {% endif%}
+
+            {# on vérifie si il y a des images#}
+            {% if url.images is defined and url.images is not empty %}
+                {% for img in url.images %}
+                    <image:image>
+                        <image:loc>
+                            {% if  img.loc|replace({hostname:''}) == img.loc %}
+                                {{ hostname }}{{ img.loc }}
+                            {% else %}
+                                {{ img.loc }}
+                            {% endif %}                           
+                        </image:loc>
+                        <image:title>
+                            {{ img.title }}
+                        </image:title>
+                    </image:image>
+                {% endfor %}
+            {% endif%}
+        </url>        
+    {% endfor %}
+
+</urlset>
+

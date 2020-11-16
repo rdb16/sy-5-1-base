@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Annonces;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -18,7 +19,7 @@ class SitemapController extends AbstractController
         $hostname = $req->getSchemeAndHttpHost();
         
         //on push(fin de tableau) les rls statiques
-        $urls[] = [];
+        $urls = [];
         $urls[] = ['loc' => $this->generateUrl('app_home')];
         $urls[] = ['loc' => $this->generateUrl('app_login')];
         $urls[] = ['loc' => $this->generateUrl('app_register')];
@@ -44,17 +45,29 @@ class SitemapController extends AbstractController
                 'loc' => $this->generateUrl('annonces_details', [
                     'slug' => $annonce->getSlug()
                 ]),
-                'image' => $images,
-                'lastmod' => $annonce->getCreatedAt()
+                'images' => $images,
+                'lastmod' => $annonce->getCreatedAt()->format('Y-m-d')
             ];
             //dd($urls);
         }
- 
+
+        //je récupère la réponse en envoyant les date au twig
+        $response = new Response(
+            $this->renderView('sitemap/index.html.twig', [
+                'urls' => $urls,
+                'hostname' => $hostname
+                // on aurait pu écrire compact('urls', 'hostname') ce qui remplace le tableau
+            ])
+        );
+
+        //ajout des entêtes xml
+        $response->headers->set('Content-Type','text/xml');
+        //on envoie
+        return $response;
 
 
 
-        return $this->render('sitemap/index.html.twig', [
-            'controller_name' => 'SitemapController',
-        ]);
+
+        
     }
 }
