@@ -27,12 +27,16 @@
                 <a href="{{ path('app_home') }}" class="navbar-brand">Axentix</a>
                     <div class="navbar-menu ml-auto">
                         <a class="navbar-link" href="{{ path('users') }}">Mon Dashboard</a>
-                        <a class="navbar-link" href="#">Link 2</a>
+                        <a class="navbar-link" href="{{ path('users_mycalendar') }}">Mon calendrier</a>
                         <a class="navbar-link" href="#">Link 3</a>
                         <a class="navbar-link" href="{{ path('app_logout') }}">Logout</a>
 
                         <div class="mx-3 ">
-                        <img src="{{ asset('uploads/images/photos/' ~ app.user.userPhoto.name)}}" class="myimg" alt="Trombi" />
+                    {% if app.user.userPhoto %}
+                            <img src="{{ asset('uploads/images/photos/' ~ app.user.userPhoto.name)}}" class="myimg" alt="Trombi"/>
+                    {% else %}
+                            <img src="{{ asset('uploads/images/photos/smiley-yeux-bleus.jpg')}}" class="myimg" alt="Trombi"/>
+                    {% endif %}                       
                         </div>
                     </div>
             </nav>
@@ -40,7 +44,7 @@
         
         <div id="example-sidenav" class="sidenav shadow-1 primary">
             <div class="sidenav-header">
-                <button data-target="example-sidenav" class="sidenav-trigger">
+                <button data-target="example-sidenav" class="sidenav-trigger"> 
                     <i class="fas fa-times"></i>
                 </button>
 
@@ -62,14 +66,19 @@
 
             <a href="#" class="collapsible-trigger sidenav-link" data-target="ex2-collaps">Mes Annonces</a>
             <div>
-                <div class="collapsible" id="ex2-collaps" data-ax="collapsible">
-                    <a href="{{ path('users_annonces_ajout') }}" class="active sidenav-link">Nouvelle annonce</a>
-                    
+                <div class="collapsible" id="ex2-collaps" data-ax="collapsible2">
+                    <a href="{{ path('users_annonces_ajout') }}" class="active sidenav-link">Nouvelle Annonce<a>                    
                     <a href="#" class="sidenav-link">ITEM</a>
-
                 </div>
             </div>
 
+            <a href="#" class="collapsible-trigger sidenav-link" data-target="ex3-collaps">Mon Agenda</a>
+            <div>
+                <div class="collapsible" id="ex3-collaps" data-ax="collapsible3">
+                    <a href="{{ path('users_mycalendar') }}" class="active sidenav-link">Consulter l'agenda</a>                    
+                    <a href="{{ path('calendar_new') }}" class="sidenav-link">Ajouter un rdv</a>
+                </div>
+            </div>
             
         </div>
         
@@ -83,6 +92,11 @@
         {% block javascripts %}{% endblock %}
         <script src="{{ asset('js/monscript.js') }}"></script>
         <script>let sidenav = new Axentix.Sidenav('#example-sidenav')</script>
-        <script>let collapsible = new Axentix.Collapsible('#ex-collaps')</script>
+        <script>
+        let collapsible = new Axentix.Collapsible('#ex-collaps')
+        let collapsible2 = new Axentix.Collapsible('#ex2-collaps')
+        let collapsible3 = new Axentix.Collapsible('#ex3-collaps')
+        
+        </script>
 </body>
 </html>

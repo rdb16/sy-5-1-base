@@ -73,10 +73,18 @@ class Users implements UserInterface
      */
     private $userPhoto;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Calendar::class, mappedBy="user_calendar", orphanRemoval=true)
+     */
+    private $calendars;
+    
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
         $this->favoris = new ArrayCollection();
+        $this->calendars = new ArrayCollection();
+       
     }    
 
 
@@ -303,4 +311,36 @@ class Users implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|Calendar[]
+     */
+    public function getCalendars(): Collection
+    {
+        return $this->calendars;
+    }
+
+    public function addCalendar(Calendar $calendar): self
+    {
+        if (!$this->calendars->contains($calendar)) {
+            $this->calendars[] = $calendar;
+            $calendar->setUserCalendar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCalendar(Calendar $calendar): self
+    {
+        if ($this->calendars->contains($calendar)) {
+            $this->calendars->removeElement($calendar);
+            // set the owning side to null (unless already changed)
+            if ($calendar->getUserCalendar() === $this) {
+                $calendar->setUserCalendar(null);
+            }
+        }
+
+        return $this;
+    }
+        
 }

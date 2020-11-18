@@ -2,19 +2,22 @@
 
 namespace App\Controller;
 
-use App\Entity\Annonces;
-use App\Entity\Images;
-use App\Form\AnnoncesType;
-use App\Form\EditProfileType;
-use Symfony\Component\String\UnicodeString;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use App\Entity\Images;
+use App\Entity\Annonces;
+use App\Form\AnnoncesType;
+use App\Form\EditProfileType;
+use App\Repository\CalendarRepository;
+use Symfony\Component\String\UnicodeString;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncode;
 
 class UsersController extends AbstractController
 {
@@ -22,7 +25,7 @@ class UsersController extends AbstractController
      * @Route("/users", name="users")
      */
     public function index()
-    {
+    {       
         return $this->render('users/index.html.twig');
     }
 
@@ -245,5 +248,37 @@ class UsersController extends AbstractController
         } else {
             return new JsonResponse(['error' => 'Token invalide'], 400);
         }
+    }
+
+    /**
+     * affiche le fullcalendar du user
+     * @Route("/users/mycalendar", name="users_mycalendar")
+     * 
+     */
+    public function myCalendar(CalendarRepository $calendarRepo) {
+        // on ramase tous les évènements du user dans un tableau
+
+        $events = $calendarRepo->findCalendarByUser($this->getUser());
+        //dd($events);
+        $rdvs = [];
+        foreach($events as $event){
+            $rdvs[] = [
+                'id' => $event->getId(),
+                'end' => $event->getEnd()->format('Y-m-d H:i:s'),
+                'start' => $event->getStart()->format('Y-m-d H:i:s'),
+                'title' => $event->getTitle(),
+                'description' => $event->getDescription(),
+                'backgroundColor' => $event->getBackgroundColor(),
+                'borderColor' => $event->getBorderColor(),
+                'textColor' => $event->getTextColor(),
+                'allDay' => $event->getAllDay(),
+            ];
+        }
+        // on encode en json le tableau de tableaux
+        $data = json_encode($rdvs);
+        // on le passe à la vue
+        return $this->render('users/mycalendar.html.twig', [
+            'data' => $data
+        ]);
     }
 }

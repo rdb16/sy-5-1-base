@@ -1,4 +1,12 @@
- 1 icône utilisateur logué
- 2 routes du header
- 3 volet nav à rendre opérationnel
+ TODO:
+ 2 routes du header 
  4 style des formulaires
+ 5 siteMap tester qu'aucun ut n'est logué
+ 6 que faire du fichier siteMap.xml ?
+
+
+
+
+DONE:
+1 icône utilisateur logué
+3 volet nav à rendre opérationnel
