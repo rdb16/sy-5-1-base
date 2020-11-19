@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
+ * sort tous les calendriers de tous les users
  * @Route("/users/calendar")
  */
 class CalendarController extends AbstractController

@@ -24,8 +24,32 @@
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek',
             },
-            events: {{ data|raw }} 
+            events: {{ data|raw }},
+            editable: true,
+            eventResizableFromStart: true 
         })  
+
+        calendar.on('eventChange', (e) => {
+            let url =`/api/calendar/${e.event.id}/edit`
+            console.log(url)
+            let donnees = {
+                "title": e.event.title,
+                "description": e.event.extendedProps.description,
+                "start": e.event.start,
+                "end": e.event.end,
+                "backgroundColor": e.event.backgroundColor,
+                "borderColor": e.event.borderColor,
+                "textColor": e.event.textColor,
+                "allDay": e.event.allDay
+
+            }
+            console.log(donnees)
+            let xhr = new XMLHttpRequest
+
+            xhr.open("PUT", url)
+            xhr.send(JSON.stringify(donnees))
+
+        })
         calendar.render()
     }
 </script>

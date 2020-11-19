@@ -51,9 +51,9 @@
                 <img class="sidenav-logo dropshadow-1" src="{{ asset('uploads/images/logo-sntp.png') }}" alt="Logo"/>
             </div>
 
-            <a href="#" class="collapsible-trigger sidenav-link" data-target="ex-collaps">Mon Profil</a>
+            <a href="#" class="collapsible-trigger sidenav-link" data-target="ex1-collaps">Mon Profil</a>
             <div>
-                <div class="collapsible" id="ex-collaps" data-ax="collapsible">
+                <div class="collapsible" id="ex1-collaps" data-ax="collapsible1">
                     <a href="{{ path('users_profil_modifier') }}" class="active sidenav-link">Modifier mon profil</a>
                     <a href="{{ path('users_data') }}" class="sidenav-link">Mes données RGPG</a>
 
@@ -93,7 +93,7 @@
         <script src="{{ asset('js/monscript.js') }}"></script>
         <script>let sidenav = new Axentix.Sidenav('#example-sidenav')</script>
         <script>
-        let collapsible = new Axentix.Collapsible('#ex-collaps')
+        let collapsible1 = new Axentix.Collapsible('#ex1-collaps')
         let collapsible2 = new Axentix.Collapsible('#ex2-collaps')
         let collapsible3 = new Axentix.Collapsible('#ex3-collaps')
         
