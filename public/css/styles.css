@@ -12,3 +12,19 @@ input[registration_form_photo] {
     width: 80%;
     margin: auto;
 }
+.reduct600{
+    width: 600px;
+    margin-top: 15px;
+    margin-left: 50px;
+    padding: 15px;
+}
+.reduct300{
+    width: 30%;
+    margin-top: 15px;
+    margin-left: 50px;
+    padding: 15px;
+}
+.reduct80{
+    width: 180px;   
+    margin-top: 15px;
+}

@@ -16,26 +16,28 @@ class SearchAnnonceType extends AbstractType
     {
         $builder
             ->add('mots', SearchType::class, [
-                'label' => false,
+                'label' => false,                
                 'attr' => [
-                    'class' =>'form-control',
-                    'placeholder' => 'Entrez vos mots clés'
+                    'class' =>'rounded-3',
+                    'placeholder' => 'Entrez vos mots clés séparés par un espace',                    
                 ],
                 'required' => false
             ])
             ->add('categorie', EntityType::class, [
                 'class' => Categories::class,
                 'label' => false,
+                'placeholder' => 'Sélectionnez une catégorie', 
                 'attr' => [
-                    'class' =>'form-control',
+                    'class' =>'',
+                                      
                 ],
                 'required' => false
             ])
-            ->add('Rechercher', SubmitType::class, [
+            ->add('search', SubmitType::class, [
                 'attr' => [
-                    'class' =>'btn primary rounded-3'
+                    'class' =>'btn primary rounded-3 fas fa-search'
                 ]
-            ] )
+            ] ) 
         ;
     }
 

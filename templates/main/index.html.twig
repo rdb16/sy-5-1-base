@@ -8,25 +8,37 @@
         <div class="alert alert-success" role="alert">{{ message }}</div>
     {% endfor %}
 
+   <br>
+        {{  form_start(form) }}                 
+            {{ form_widget(form.mots,{'attr': {'class': 'reduct300'}}) }}       
+    <br>          
+            {{ form_widget(form.categorie,{'attr': {'class': 'reduct300'}}) }}
+
+            {{ form_widget(form.search,{'label': '-'})  }}
+
+            
+    <br> 
+        {{  form_end(form) }}
+   
+
     <div class="container">
-    {{ form(form) }}
-        {% for annonce in annonces %}
-            <div class="grix xs2 sm3 gutte-0 card ">
-                <div class="primary flex vcenter fx-center ">
-                {# {{ dump(annonce)}} #}
-                    <img src="{{ asset('uploads/images/annonces/' ~ annonce.images[0].name)|
-                    imagine_filter('square')  }}" 
-                    alt="{{ annonce.title }}">
-                </div>
-                <div class="flex fx-col fx-grow">
-                    <div class="card-header"><a href="{{ path('annonces_details', {slug: annonce.slug}) }}" > {{ annonce.title }} </a></div>
-                    <div class="card-content">
-                        <p>Catégorie: {{ annonce.categories.name }}</p>
-                        <p>Description: {{ annonce.content | striptags | u.truncate(35,'...') }}</p>
-                    </div>
+    {% for annonce in annonces %}
+        <div class="grix xs2 sm3 gutte-0 card ">
+            <div class="primary flex vcenter fx-center ">
+            {# {{ dump(annonce)}} #}
+                <img src="{{ asset('uploads/images/annonces/' ~ annonce.images[0].name)|
+                imagine_filter('square')  }}" 
+                alt="{{ annonce.title }}">
+            </div>
+            <div class="flex fx-col fx-grow">
+                <div class="card-header"><a href="{{ path('annonces_details', {slug: annonce.slug}) }}" > {{ annonce.title }} </a></div>
+                <div class="card-content">
+                    <p>Catégorie: {{ annonce.categories.name }}</p>
+                    <p>Description: {{ annonce.content | striptags | u.truncate(35,'...') }}</p>
                 </div>
             </div>
-        {% endfor %}
+        </div>
+    {% endfor %}
     </div>
     
 {% endblock %}
