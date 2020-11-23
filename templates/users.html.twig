@@ -33,7 +33,7 @@
 
                         <div class="mx-3 ">
                     {% if app.user.userPhoto %}
-                            <img src="{{ asset('uploads/images/photos/' ~ app.user.userPhoto.name)}}" class="myimg" alt="Trombi"/>
+                            <img src="{{ asset('uploads/images/photos/' ~ app.user.userPhoto.name) }}" class="myimg" alt="Trombi"/>
                     {% else %}
                             <img src="{{ asset('uploads/images/photos/smiley-yeux-bleus.jpg')}}" class="myimg" alt="Trombi"/>
                     {% endif %}                       
