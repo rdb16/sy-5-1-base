@@ -17,6 +17,25 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class AnnoncesController extends AbstractController
 {
+     /**
+      * @Route("/", name="liste")
+      * 
+      */
+     public function index(AnnoncesRepository $annnoncesRepo, Request $request) {
+         // on définit le nb d'annonces par $page
+         $limit = 3;
+        // on récupère le numéro de la page où l'on est-> que l'on caste de string à int
+        $page = (int)$request->query->get("page",1);
+        //dd($page);
+        // on récupère les annonces de la page
+        $annonces = $annnoncesRepo->getPaginatedAnnonces($page, $limit);
+        // on récupère le nb total d'annonces
+        $total = $annnoncesRepo->getTotalAnnonces();
+
+        return $this->render('annonces/index.html.twig', compact('annonces','total','limit', 'page'));
+     }
+
+
     /**
      * @Route("/details/{slug}", name="details")
      */
@@ -56,4 +75,8 @@ class AnnoncesController extends AbstractController
             'form'  => $form->createView()
         ]);
     }
+
+    
+
+     
 }

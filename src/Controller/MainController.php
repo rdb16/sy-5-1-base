@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\ContactType;
 use App\Form\SearchAnnonceType;
 use App\Repository\AnnoncesRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -16,9 +17,10 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="app_home")
      */
-    public function index(AnnoncesRepository $annoncesRepo, Request $request)
+    public function index(AnnoncesRepository $annoncesRepo, Request $request, PaginatorInterface $paginator)
     {
-        $annonces = $annoncesRepo->findBy(['active' =>  true], ['created_at' => 'desc'], 5);
+        //$annonces = $annoncesRepo->findBy(['active' =>  true], ['created_at' => 'desc'], 5);
+        $annonces = $annoncesRepo->findBy(['active' =>  true], ['created_at' => 'desc']);
 
         $form = $this->createForm(SearchAnnonceType::class);
 
@@ -36,8 +38,25 @@ class MainController extends AbstractController
             //dd($annonces);
         }
 
+        
+        $paginatedAnnonces = $paginator->paginate(
+            //la liste à paginer
+            $annonces,
+            //num de la page encours dans l'url sinon 1
+            $request->query->getInt('page', 1),
+            
+            3 //nb de resultats par page
+        );
+        // on essaye de customiser la sortie
+        $paginatedAnnonces->setCustomParameters([
+            'align' => 'center',
+            'size' => 'large',
+            'style' => 'bottom',
+            'rounded' => true,
+        ]);
+
         return $this->render('main/index.html.twig', [
-            'annonces' => $annonces,
+            'paginatedAnnonces' => $paginatedAnnonces,
             'form' => $form->createView()
         ]);
     }

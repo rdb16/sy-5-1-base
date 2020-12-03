@@ -14,15 +14,13 @@
     <br>          
             {{ form_widget(form.categorie,{'attr': {'class': 'reduct300'}}) }}
 
-            {{ form_widget(form.search,{'label': '.'})  }}
-
-            
+            {{ form_widget(form.search,{'label': '.'})  }}            
     <br> 
         {{  form_end(form) }}
    
 
     <div class="container">
-    {% for annonce in annonces %}
+    {% for annonce in paginatedAnnonces %}
         <div class="grix xs2 sm3 gutte-0 card ">
             <div class="primary flex vcenter fx-center ">
             {# {{ dump(annonce)}} #}
@@ -34,11 +32,15 @@
                 <div class="card-header"><a href="{{ path('annonces_details', {slug: annonce.slug}) }}" > {{ annonce.title }} </a></div>
                 <div class="card-content">
                     <p>Catégorie: {{ annonce.categories.name }}</p>
-                    <p>Description: {{ annonce.content | striptags | u.truncate(35,'...') }}</p>
+                    <p>Description: {{ annonce.content | striptags | u.truncate(150,'...') }}</p>
                 </div>
             </div>
         </div>
-    {% endfor %}
-    </div>
+    {% endfor %}   
+    <div class="pagination">{{ knp_pagination_render(paginatedAnnonces) }}</div>
+    
+</div>
+   
+   
     
 {% endblock %}
