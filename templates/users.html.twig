@@ -20,7 +20,7 @@
             </div>	   
 
             <nav class="navbar shadow-1 primary">
-                <button data-target="example-sidenav" class="btn press primary sidenav-trigger ">
+                <button data-target="user-sidenav" class="btn press primary sidenav-trigger ">
                     <i class="fas fa-bars"></i>
                 </button>
 
@@ -42,9 +42,9 @@
             </nav>
         </header>
         
-        <div id="example-sidenav" class="sidenav shadow-1 primary">
+        <div id="user-sidenav" class="sidenav shadow-1 primary">
             <div class="sidenav-header">
-                <button data-target="example-sidenav" class="sidenav-trigger"> 
+                <button data-target="user-sidenav" class="sidenav-trigger"> 
                     <i class="fas fa-times"></i>
                 </button>
 
@@ -79,7 +79,17 @@
                     <a href="{{ path('calendar_new') }}" class="sidenav-link">Ajouter un rdv</a>
                 </div>
             </div>
-            
+            {# on n'affiche que pour l'admin #}
+            {% if is_granted('ROLE_ADMIN',app.user) %}
+                <a href="#" class="collapsible-trigger sidenav-link" data-target="ex4-collaps">Administration</a>
+                <div>
+                    <div class="collapsible" id="ex4-collaps" data-ax="collapsible4">
+                        <a href="{{ path('admin_annonces_home') }}" class="active sidenav-link">Supprimer une annonce</a>
+                        <a href="{{ path('admin_stats') }}" class="sidenav-link">Statistiques du site</a>
+                        <a href="{{ path('admin_categories_home') }}" class="sidenav-link">Gérer les catégories</a>
+                    </div>
+                </div>
+            {% endif %}   
         </div>
         
          <main>           
@@ -91,12 +101,12 @@
         <script src="https://cdn.jsdelivr.net/npm/axentix@1.0.0-beta.3.1/dist/js/axentix.min.js"></script>
         {% block javascripts %}{% endblock %}
         <script src="{{ asset('js/monscript.js') }}"></script>
-        <script>let sidenav = new Axentix.Sidenav('#example-sidenav')</script>
+        <script>let sidenav = new Axentix.Sidenav('#user-sidenav')</script>
         <script>
-        let collapsible1 = new Axentix.Collapsible('#ex1-collaps')
-        let collapsible2 = new Axentix.Collapsible('#ex2-collaps')
-        let collapsible3 = new Axentix.Collapsible('#ex3-collaps')
-        
+            let collapsible1 = new Axentix.Collapsible('#ex1-collaps')
+            let collapsible2 = new Axentix.Collapsible('#ex2-collaps')
+            let collapsible3 = new Axentix.Collapsible('#ex3-collaps')            
+            let collapsible4 = new Axentix.Collapsible('#ex4-collaps')            
         </script>
 </body>
 </html>

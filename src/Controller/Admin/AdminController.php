@@ -12,13 +12,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/admin")
+ * @Route("/admin", name="admin_")
  * @package App\Controller\Admin
  */
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/", name="home_")
+     * @Route("/", name="home")
      */
     public function index()
     {
@@ -29,7 +29,7 @@ class AdminController extends AbstractController
 
     /**
      * 
-     * @Route("/stats", name="admin-stats")
+     * @Route("/stats", name="stats")
      * 
      */
     public function statistiques(CategoriesRepository $categRepo, AnnoncesRepository $annRepo){
