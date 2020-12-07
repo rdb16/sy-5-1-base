@@ -20,7 +20,7 @@
    
 
     <div class="container">
-    {% for annonce in paginatedAnnonces %}
+    {% for annonce in annonces %}
         <div class="grix xs2 sm3 gutte-0 card ">
             <div class="primary flex vcenter fx-center ">
             {# {{ dump(annonce)}} #}
@@ -37,10 +37,39 @@
             </div>
         </div>
     {% endfor %}   
-    <div class="pagination">{{ knp_pagination_render(paginatedAnnonces) }}</div>
-    
-</div>
-   
-   
+    {# <div class="pagination">{{ knp_pagination_render(paginatedAnnonces) }}</div> #}
+        <ul class="pagination large">
+            {%  set pages = (total/limit)|round(0,'ceil') %}
+            <li class="{{ (page == 1) ? 'disabled' : '' }}">
+                <a href="?page=1">
+                    <i class="fas fa-step-backward"></i>
+                </a>
+            </li>
+            <li class="{{ (page == 1) ? 'disabled' : '' }}">
+                <a href="{{ (page > 1) ? '?page=' ~ (page - 1) : '' }}">
+                    <i class="fas fa-angle-left"></i>
+                </a>
+            </li>
+
+            {% for item in 1..pages %}
+                <li class="{{ (page == item) ? 'active' : '' }}">
+                    <a href="?page={{ item }}">{{ item }}</a>
+                </li>
+            {% endfor %}    
+
+            <li class="{{ (page == pages) ? 'disabled' : '' }}">
+                <a href="{{ (page < pages) ? '?page=' ~ (page + 1) : '' }}"> 
+                    <i class="fas fa-angle-right"></i>
+                </a>        
+            </li>
+
+            <li class="{{ (page == pages) ? 'disabled' : '' }}">
+                <a href="?page={{ pages }}">
+                    <i class="fas fa-step-forward"></i>
+                </a>
+            </li>
+        </ul>
+
+    </div>   
     
 {% endblock %}

@@ -103,7 +103,7 @@ class AnnoncesRepository extends ServiceEntityRepository
     
     /**
      * Returns all Annonces per page
-     * @IsGranted("ROLE_ADMIN")
+     * 
      */
     public function getPaginatedAnnonces($page, $limit)
     {

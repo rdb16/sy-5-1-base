@@ -17,10 +17,14 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="app_home")
      */
-    public function index(AnnoncesRepository $annoncesRepo, Request $request, PaginatorInterface $paginator)
+    public function index(AnnoncesRepository $annoncesRepo, Request $request )
     {
-        //$annonces = $annoncesRepo->findBy(['active' =>  true], ['created_at' => 'desc'], 5);
-        $annonces = $annoncesRepo->findBy(['active' =>  true], ['created_at' => 'desc']);
+        
+        // $annonces = $annoncesRepo->findBy(['active' =>  true], ['created_at' => 'desc']);
+        $limit = 5;
+        $page = (int)$request->query->get("page",1);
+        $annonces = $annoncesRepo->getPaginatedAnnonces($page,$limit);
+        $total = $annoncesRepo->getTotalAnnonces();
 
         $form = $this->createForm(SearchAnnonceType::class);
 
@@ -39,24 +43,27 @@ class MainController extends AbstractController
         }
 
         
-        $paginatedAnnonces = $paginator->paginate(
+        /* $paginatedAnnonces = $paginator->paginate(
             //la liste à paginer
             $annonces,
             //num de la page encours dans l'url sinon 1
             $request->query->getInt('page', 1),
             
             3 //nb de resultats par page
-        );
+        ); */
         // on essaye de customiser la sortie
-        $paginatedAnnonces->setCustomParameters([
+        /* $paginatedAnnonces->setCustomParameters([
             'align' => 'center',
             'size' => 'large',
             'style' => 'bottom',
             'rounded' => true,
-        ]);
+        ]); */
 
         return $this->render('main/index.html.twig', [
-            'paginatedAnnonces' => $paginatedAnnonces,
+            'annonces' => $annonces,
+            'total' => $total,
+            'limit' => $limit,
+            'page' => $page,
             'form' => $form->createView()
         ]);
     }
