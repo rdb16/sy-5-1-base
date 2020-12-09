@@ -35,7 +35,7 @@ class AnnoncesFixtures extends Fixture implements DependentFixtureInterface
                 //renvoie le nom de l'image qui a été crée
                 $img = $faker->image('public/uploads/images/annonces');
                 $imageAnnonce = new Images();
-                $nomImg = basename($imageAnnonce);
+                $nomImg = basename($img);
                 
                 $imageAnnonce->setName($nomImg);
                 $annonce->addImage($imageAnnonce);
