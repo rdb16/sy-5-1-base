@@ -15,22 +15,26 @@ class AgencesFixtures extends Fixture
             1 => [
                 'nom' => 'Paris',
                 'latitude' => '48.8529',
-                'longitude' => '2.35'
+                'longitude' => '2.35',
+                'address' => '23 rue des stroumphs 75002'
             ],
             2 => [
                 'nom' => 'Brest',
                 'latitude' => '48.383',
-                'longitude' => '-4.50'
+                'longitude' => '-4.50',
+                'address' => '23 rue du Tonnerre 29002'
             ],
             3 => [
                 'nom' => 'Quimper',
                 'latitude' => '48.000',
-                'longitude' => '-4.10'
+                'longitude' => '-4.10',
+                'address' => '23 rue des bigoudins 29000'
             ],
             4 => [
                 'nom' => 'Bayonne',
                 'latitude' => '43.5009',
-                'longitude' => '-1.467'
+                'longitude' => '-1.467',
+                'address' => '15 rue dujambon'
             ],  
         ];
 
@@ -43,7 +47,9 @@ class AgencesFixtures extends Fixture
             $agence->setLatitude($value['latitude']);
             
             $agence->setLongitude($value['longitude']);
-            dump($agence);
+
+            $agence->setAddress($value['address']);
+            
             $manager->persist($agence);  
         }
         $manager->flush();

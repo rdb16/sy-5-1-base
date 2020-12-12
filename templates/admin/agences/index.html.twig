@@ -1,0 +1,82 @@
+{% extends 'users.html.twig' %}
+
+{% block title %}Gérer les agences
+{% endblock %}
+
+{% block body %}
+	<h1>Gérer les agences</h1>
+	{% for message in app.flashes('message') %}
+		<div class="col-xs4">
+			<div class="p-3 my-2 rounded-2 success">
+				{{ message }}
+			</div>
+		</div>
+	{% endfor %}
+
+
+	<table class="table striped">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Titre</th>
+				<th>Date</th>
+				<th>Active</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for agence in agences %}
+				<tr>
+					<td>{{ agence.id}}</td>
+					<td>{{ agence.nom }}</td>
+					<td>{{ agence.latitude }}</td>
+					<td>{{ agence.longitude }}</td>
+					<td>{{ agence.address }}</td>
+					
+					<td
+						class="text-center">
+						{# insertion d'une modale #}
+						<a href="#" class="btn primary press modal-trigger" data-target="modal-delete" data-id="{{agence.id}}" data-titre="{{agence.nom}}">Supprimer</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<div class="modal shadow-1 white falling" id="modal-delete" data-ax="modal">
+		<div class="modal-header">Suppression d'une agence</div>
+
+		<div class="divider"></div>
+
+		<div class="modal-content"></div>
+
+		<div class="divider"></div>
+
+		<div class="modal-footer">
+			<a href="" class="btn red">Valider</a>
+			<button data-target="modal-delete" class="ml-auto btn shadow-1 rounded-1 small primary modal-trigger">Close</button>
+		</div>
+	</div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		window.onload = () => {
+            let modal = new Axentix.Modal('#modal-delete');    
+        }
+        let supprimer = document.querySelectorAll(".modal-trigger");
+        for (let bouton of supprimer) {
+            bouton.addEventListener("click", function () {
+                document.querySelector(".modal-footer a").href = `/admin/agences/supprimer/${
+                this.dataset.id}`
+                document.querySelector(".modal-content").innerText = `Confirmer la suppression de l'agence  "${ 
+                    this.dataset.nom
+                }"`
+            })
+        }
+    }
+	</script>
+{% endblock %}
+
