@@ -14,12 +14,15 @@
     <body>
         <header>
             <nav class="navbar shadow-1 primary">
-                <a href="{{ path('app_home') }}" class="navbar-brand">Axentix</a>
+                <a href="{{ path('app_home') }}" class="navbar-brand">SNTPK</a>
                 <div class="navbar-menu ml-auto">
-                    <a class="navbar-link" href="{{ path('app_home') }}">Acceuil</a>
-                    <a class="navbar-link" href="{{ path('app_register') }}">Enregistrement</a>
-                    <a class="navbar-link" href="{{ path('users') }}">Mon Compte</a>
+                    <a class="navbar-link" href="{{ path('app_home') }}"> Les Annonces</a>
+                    <a class="navbar-link" href="{{ path('app_agences') }}"> Nos agences</a>
                     <a class="navbar-link" href="{{ path('contact') }}">Nous contacter</a>
+                    <a class="navbar-link px-3" href="{{ path('app_register') }}">S'enregistrer</a>
+                   
+                    <a class="navbar-link" href="{{ path('users') }}"><i class="fas fa-home"></i>
+	                Mon Compte</a>                    
                 </div>
             </nav>
         </header>

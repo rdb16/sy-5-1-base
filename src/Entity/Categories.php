@@ -55,7 +55,6 @@ class Categories
     {
         $this->categories = new ArrayCollection();
         $this->anonces = new ArrayCollection();
-        $this->annonces = new ArrayCollection();
     }
 
     public function __toString() {

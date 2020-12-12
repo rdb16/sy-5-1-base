@@ -44,6 +44,7 @@ class CategoriesFixtures extends Fixture
             $categorie->setName($value['name']);
             $categorie->setSlug($value['name']);
             $categorie->setColor($value['color']);
+            
             $manager->persist($categorie);  
             //on enregistre la categorie une reference  
             $this->addreference('categorie_' . $key, $categorie);        

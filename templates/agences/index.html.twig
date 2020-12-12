@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Carte des agences{% endblock %}
+
+{% block stylesheets %}
+<!-- cdn de leaflet #}-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <style>
+        #maCarte {
+            height: 800px;
+            width: 800px;
+            margin-left: 100px;
+        }
+    </style> 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css" integrity="sha512-BBToHPBStgMiw0lD4AtkRIZmdndhB6aQbXpX7omcrXeG2PauGBl2lzq2xUZTxaLxYz5IDHlmneCZ1IJ+P3kYtQ==" crossorigin="anonymous"/>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css" integrity="sha512-RLEjtaFGdC4iQMJDbMzim/dOvAu+8Qp9sw7QE4wIMYcg2goVoivzwgSZq9CsIxp4xKAZPKh5J2f2lOko2Ze6FQ==" crossorigin="anonymous"/>
+
+
+    
+{% endblock %}
+
+{% block body %}
+    <h3>Nos Agences en France :</h3>
+    <br>
+    <div id="maCarte"></div>
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Make sure you put this JS de leaflet AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" 
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin="">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js" integrity="sha512-MQlyPV+ol2lp4KodaU/Xmrn+txc1TP15pOBF/2Sfre7MRsA/pB4Vy58bEqe9u7a7DczMLtU5wT8n7OblJepKbg==" crossorigin="anonymous">
+    </script>
+
+
+    <script>
+        
+        // dans le tableau latitude et longitude de paris pour centrer la carte et le 13 le niveau de zoom au départ
+        var carte = L.map('maCarte').setView([
+            48.852969, 2.349903
+            ], 6);
+        // on aoppelle les tiles du site openstreetmap suivant les z,x,y
+        L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', { // le copyright en bas à droite
+            attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
+            // zoom 1 la terre entière , 20 le niveau rue
+            minZoom: 1,
+            maxZoom: 20
+        }).addTo(carte);
+
+        // on fait uncluster de marker
+        let markers = L.markerClusterGroup()
+        let markersArray = []
+       
+
+        // on récupère le json du controller
+        let places = {{ agences | raw }}
+        
+        for(agence in places){
+            let marker = L.marker([
+                places[agence].latitude,
+                places[agence].longitude
+            ])//.addTo(carte) inutile car onutiliseles clusters
+            marker.bindPopup("<p>Agence de : " + places[agence].ville + "</p><p>" + places[agence].address + "</p>") 
+            // on ajoute le marker au groupe
+            markers.addLayer(marker) 
+            // et au tableau des markers
+            markersArray.push(marker)        
+        } 
+        let group = new L.featureGroup(markersArray)
+        carte.fitBounds(group.getBounds().pad(0.5))
+
+        carte.addLayer(markers)
+        
+
+
+    </script>    
+{% endblock %}
